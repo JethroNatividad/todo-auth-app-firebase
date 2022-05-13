@@ -1,6 +1,6 @@
 import { FirebaseApp, FirebaseOptions, initializeApp } from "firebase/app";
 import {Firestore, getFirestore, collection, CollectionReference, DocumentData} from "firebase/firestore"
-
+import { Auth, getAuth } from 'firebase/auth'
 const firebaseConfig:FirebaseOptions = {
   apiKey: "AIzaSyBLt0RYWVBykAkzJlU-xHZPwugxmG-xpGo",
   authDomain: "todoauthapp.firebaseapp.com",
@@ -14,22 +14,7 @@ const firebaseConfig:FirebaseOptions = {
 // Initialize Firebase
 const app:FirebaseApp = initializeApp(firebaseConfig)
 // Init firestore
-const db:Firestore = getFirestore()
-
-const createCollection = <T = DocumentData>(collectionName: string) => {
-    return collection(db, collectionName) as CollectionReference<T>
-  }
-
-type Todo = {
-    text:string
-    completed: boolean
-}
-
-type UserData = {
-    username: string
-    email: string
-    todos: Todo[]
-}
-export const usersRef = createCollection<UserData>('users')
+export const db:Firestore = getFirestore()
+export const auth:Auth = getAuth()
 
 export default app
