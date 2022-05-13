@@ -1,6 +1,8 @@
 import React from 'react'
 import type { NextPage } from 'next'
 import { Formik } from 'formik'
+import { sign } from 'crypto'
+import { login } from '../lib/auth'
 
 type InitialValues = {
   email:string
@@ -13,8 +15,11 @@ const Login:NextPage = () => {
     <div>
 
     <div className='text-center mb-2 text-xl uppercase font-semibold'>login</div>
-    <Formik initialValues={initialValues} onSubmit={(values, {setFieldValue})=> {
+    <Formik initialValues={initialValues} onSubmit={async (values, {setFieldValue, setSubmitting})=> {
       console.log(values)
+      setSubmitting(true)
+      await login(values.email,values.password)
+      setSubmitting(false)
     }}>
     {({
          values,
