@@ -13,6 +13,7 @@ type Todo = {
 type UserData = {
     username: string
     email: string
+    uid: string
     todos: Todo[]
 }
 export const usersRef = createCollection<UserData>('users')

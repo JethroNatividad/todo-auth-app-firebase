@@ -2,7 +2,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "fire
 import { auth } from "./firebase";
 
 export async function signup(email:string, password:string){
-  return await createUserWithEmailAndPassword(auth, email, password)
+  const data = await createUserWithEmailAndPassword(auth, email, password)
+  return data
 }
 export async function login(email:string, password:string){
   const data = await signInWithEmailAndPassword(auth, email, password)
