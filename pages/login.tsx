@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import { Formik } from 'formik'
 import { sign } from 'crypto'
 import { login } from '../lib/auth'
+import { useRouter } from 'next/router'
 
 type InitialValues = {
   email:string
@@ -10,6 +11,7 @@ type InitialValues = {
 }
 
 const Login:NextPage = () => {
+  const router = useRouter()
   const initialValues: InitialValues = {email:'', password:''}
   return (
     <div>
@@ -18,8 +20,10 @@ const Login:NextPage = () => {
     <Formik initialValues={initialValues} onSubmit={async (values, {setFieldValue, setSubmitting})=> {
       console.log(values)
       setSubmitting(true)
-      await login(values.email,values.password)
+      const [error, data] = await login(values.email,values.password)
       setSubmitting(false)
+      if(error) return alert(error)
+      router.push('/')
     }}>
     {({
          values,

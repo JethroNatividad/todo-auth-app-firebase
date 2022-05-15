@@ -2,6 +2,7 @@ import React from 'react'
 import type { NextPage } from 'next'
 import { Formik } from 'formik'
 import { signup } from '../lib/auth'
+import { useRouter } from 'next/router'
 
 type InitialValues = {
   username:string
@@ -10,6 +11,7 @@ type InitialValues = {
 }
 
 const Signup:NextPage = () => {
+  const router = useRouter()
   const initialValues: InitialValues = {username:'', email:'', password:''}
   return (
     <div>
@@ -21,7 +23,7 @@ const Signup:NextPage = () => {
       const [error, data] = await signup(values.username, values.email, values.password)
       setSubmitting(false)
       if(error) return alert (error)
-      alert('done')
+      router.push('/')
     }}>
     {({
          values,
