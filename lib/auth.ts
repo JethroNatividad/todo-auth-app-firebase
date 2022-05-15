@@ -1,30 +1,39 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
-import {usersRef} from './db'
-import { addDoc } from "firebase/firestore";
+import {userRef} from './db'
+import { getDoc, setDoc } from "firebase/firestore";
+import { getErrorMessage } from "./utils";
 
 export async function signup(username:string, email:string, password:string){
   try {
-    
     const data = await createUserWithEmailAndPassword(auth, email, password)
     const { user } = data
     // save user in db
-    const newUser = await addDoc(usersRef, {
-      uid: user.uid,
+    await setDoc(userRef(user.uid), {
       todos: [],
       email,
       username
     })
-  } catch (error) {
-    alert(error)
+    const userData = (await getDoc(userRef(user.uid))).data()
+    
+    return [null, userData]
+  } catch (error: any) {
+    const message:string = getErrorMessage(error)
+    return [message, null]
   }
 
-  return true
 }
 export async function login(email:string, password:string){
-  const data = await signInWithEmailAndPassword(auth, email, password)
-  console.log(data)
-  return data
+  try {
+    const data = await signInWithEmailAndPassword(auth, email, password)
+    const {user} = data
+    console.log(data)
+    const userData = (await getDoc(userRef(user.uid))).data()
+    return [null, userData]
+  } catch (error) {
+    const message:string = getErrorMessage(error)
+    return [message, null]
+  }
 }
 
 export default auth

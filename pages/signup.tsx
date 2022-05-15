@@ -18,8 +18,9 @@ const Signup:NextPage = () => {
     <Formik initialValues={initialValues} onSubmit={async (values, {setFieldValue, setSubmitting})=> {
       console.log(values)
       setSubmitting(true)
-      await signup(values.username, values.email, values.password)
+      const [error, data] = await signup(values.username, values.email, values.password)
       setSubmitting(false)
+      if(error) return alert (error)
       alert('done')
     }}>
     {({
