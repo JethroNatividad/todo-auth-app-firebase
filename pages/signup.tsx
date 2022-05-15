@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import type { NextPage } from 'next'
 import { Formik } from 'formik'
 import { signup } from '../lib/auth'
 import { useRouter } from 'next/router'
+import { onAuthStateChanged } from 'firebase/auth'
+import {auth} from '../lib/firebase'
 
 type InitialValues = {
   username:string
@@ -12,6 +14,14 @@ type InitialValues = {
 
 const Signup:NextPage = () => {
   const router = useRouter()
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if(user) return router.push('/')
+    })
+    return () => {
+      unsubscribe()
+    }
+  }, [])
   const initialValues: InitialValues = {username:'', email:'', password:''}
   return (
     <div>
