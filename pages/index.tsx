@@ -7,9 +7,9 @@ import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import TodoList from '../components/TodoList'
 import { signup } from '../lib/auth'
-import { UserData, userRef } from '../lib/db'
+import { userRef } from '../lib/db'
 import { auth } from '../lib/firebase'
-
+import { UserData } from '../types'
 
 const Home: NextPage = () => {
   const [user, setUser] = useState<UserData>({username: '', email:'', todos: []})
