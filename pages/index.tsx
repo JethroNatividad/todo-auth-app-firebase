@@ -5,6 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
+import NoteView from '../components/NoteView'
 import { signup } from '../lib/auth'
 import { UserData, userRef } from '../lib/db'
 import { auth } from '../lib/firebase'
@@ -53,8 +54,14 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar signout={signout} username={user.username} loading={loadingUser}/>
-      <div>{loadingUser ?'Loading user': `${user.username}`}</div>
-      <div className='text-red-600'>Hello world</div>
+      
+      <div className='flex flex-col max-w-4xl p-4'>
+        <NoteView/>
+        <div>
+          notes
+        </div>
+      </div>
+      
       </div>
   )}
 
