@@ -5,6 +5,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
+import { signup } from '../lib/auth'
 import { UserData, userRef } from '../lib/db'
 import { auth } from '../lib/firebase'
 
@@ -13,7 +14,14 @@ const Home: NextPage = () => {
   const [user, setUser] = useState<UserData>({username: '', email:'', todos: []})
   const [loadingUser, setLoadingUser] = useState<boolean>(true)
   const router = useRouter()
-
+  const signout = async () => {
+    try {
+      await signOut(auth)
+      router.push('/login')
+    } catch (error) {
+      alert(error)
+    }
+  }
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user)=> {
       if(!user) return router.push('/login')
@@ -21,7 +29,7 @@ const Home: NextPage = () => {
         setLoadingUser(true)
         onSnapshot(userRef(user.uid), (snapshot) => {
            const userData = snapshot.data()
-           if(!userData) return router.push('/login')
+           if(!userData) return signout()
            setUser(userData)
            // set loading once
            if(loadingUser) setLoadingUser(false)
@@ -37,14 +45,6 @@ const Home: NextPage = () => {
     }
   }, [])
 
-  const signout = async () => {
-    try {
-      await signOut(auth)
-      router.push('/login')
-    } catch (error) {
-      alert(error)
-    }
-  }
   return (
     <div>
       <Head>
