@@ -29,10 +29,13 @@ const Home: NextPage = () => {
       try {
         setLoadingUser(true)
         const userData = await getDoc(userRef(user.uid))
+        console.log(userData.data(),'userdata')
+        console.log(user, 'user')
         if(!userData.exists()){
           return signout()
         }
-        return setUser(userData.data())
+        setUser(userData.data())
+        return setLoadingUser(false)
       
       } catch (error) {
         alert(error)
