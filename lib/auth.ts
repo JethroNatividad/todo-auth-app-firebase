@@ -26,10 +26,10 @@ export async function signup(username:string, email:string, password:string){
     })
     const userData = await getUserData(user.uid)
     
-    return [null, userData]
+    return [null, userData, user.uid]
   } catch (error: unknown) {
     const message:string = getErrorMessage(error)
-    return [message, null]
+    return [message, null, null]
   }
 
 }
@@ -39,10 +39,10 @@ export async function login(email:string, password:string){
     const {user} = data
     console.log(data)
     const userData = await getUserData(user.uid)
-    return [null, userData]
+    return [null, userData, user.uid]
   } catch (error:unknown) {
     const message:string = getErrorMessage(error)
-    return [message, null]
+    return [message, null, null]
   }
 }
 
