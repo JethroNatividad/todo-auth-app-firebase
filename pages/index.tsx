@@ -1,5 +1,5 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth'
-import { onSnapshot } from 'firebase/firestore'
+import { getDoc, onSnapshot } from 'firebase/firestore'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -28,14 +28,11 @@ const Home: NextPage = () => {
       if(!user) return router.push('/login')
       try {
         setLoadingUser(true)
-        onSnapshot(userRef(user.uid), (snapshot) => {
-           const userData = snapshot.data()
-           if(!userData) return signout()
-           console.log(userData)
-           setUser(userData)
-           // set loading once
-           if(loadingUser) setLoadingUser(false)
-        })
+        const userData = await getDoc(userRef(user.uid))
+        if(!userData.exists()){
+          return signout()
+        }
+        return setUser(userData.data())
       
       } catch (error) {
         alert(error)
