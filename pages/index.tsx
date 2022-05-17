@@ -12,7 +12,7 @@ import { auth } from '../lib/firebase'
 import { UserData } from '../types'
 
 const Home: NextPage = () => {
-  const [user, setUser] = useState<UserData>({username: '', email:'', todos: []})
+  const [user, setUser] = useState<UserData>({username: '', email:''})
   const [loadingUser, setLoadingUser] = useState<boolean>(true)
   const router = useRouter()
   const signout = async () => {
@@ -31,6 +31,7 @@ const Home: NextPage = () => {
         onSnapshot(userRef(user.uid), (snapshot) => {
            const userData = snapshot.data()
            if(!userData) return signout()
+           console.log(userData)
            setUser(userData)
            // set loading once
            if(loadingUser) setLoadingUser(false)

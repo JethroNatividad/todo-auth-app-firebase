@@ -20,7 +20,6 @@ export async function signup(username:string, email:string, password:string){
     const { user } = data
     // save user in db
     await setDoc(userRef(user.uid), {
-      todos: [],
       email,
       username
     })

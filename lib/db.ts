@@ -17,6 +17,6 @@ export const todosRef = (uid:string) => createCollection<Todo>(`users/${uid}/tod
 export const createTodo = async ({completed, text}:Todo) => {
   const auth = getAuth()
   if(auth && auth.currentUser){
-    addDoc(todosRef(auth.currentUser.uid), {completed: false, text})
+    addDoc(todosRef(auth.currentUser.uid), {completed, text})
   }
 }

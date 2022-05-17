@@ -1,11 +1,13 @@
 import { Formik } from "formik";
+import { createTodo } from "../lib/db";
 
 const CreateTodo = () => {
     return (
-        <Formik initialValues={{text: ''}} onSubmit={({text}, {setSubmitting, setValues})=>{
+        <Formik initialValues={{text: ''}} onSubmit={async ({text}, {setSubmitting, setValues})=>{
            setSubmitting(true)
            console.log(text)
-           //setValues({text: ''})
+           await createTodo({text,completed:false})
+           setValues({text: ''})
            setSubmitting(false)
         }}>
            {({

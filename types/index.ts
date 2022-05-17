@@ -6,5 +6,4 @@ export type Todo = {
 export type UserData = {
     username: string
     email: string
-    todos: Todo[]
 }
