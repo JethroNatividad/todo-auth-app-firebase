@@ -63,7 +63,7 @@ const Home: NextPage = () => {
         unsubscribe()
       }
     }
-  }, [])
+  }, [loadingUser])
 
   return (
     <div>
