@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
 import { getDoc, onSnapshot } from 'firebase/firestore'
 import type { NextPage } from 'next'
 import Head from 'next/head'
@@ -7,13 +7,14 @@ import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import TodoList from '../components/TodoList'
 import { signup } from '../lib/auth'
-import { userRef } from '../lib/db'
+import { todosRef, userRef } from '../lib/db'
 import { auth } from '../lib/firebase'
-import { UserData } from '../types'
+import { Todo, UserData } from '../types'
 
 const Home: NextPage = () => {
   const [user, setUser] = useState<UserData>({username: '', email:''})
   const [loadingUser, setLoadingUser] = useState<boolean>(true)
+  const [todos, setTodos] = useState<Todo[]>([])
   const router = useRouter()
   const signout = async () => {
     try {
@@ -46,6 +47,23 @@ const Home: NextPage = () => {
       unsubscribe()
     }
   }, [])
+  
+  useEffect(() => {
+    if(!loadingUser){
+      const auth = getAuth()
+      if(!auth.currentUser) return
+      const unsubscribe = onSnapshot(todosRef(auth.currentUser.uid), (snapshots)=>{
+        const data: Todo[] = []
+        snapshots.forEach((snapshot) => {
+        data.push(snapshot.data())
+        })
+        setTodos(data)
+      })
+      return () => {
+        unsubscribe()
+      }
+    }
+  }, [])
 
   return (
     <div>
@@ -55,7 +73,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar signout={signout} username={user.username} loading={loadingUser}/>
-        <TodoList/>
+        <TodoList todos={todos}/>
       
       </div>
   )}
