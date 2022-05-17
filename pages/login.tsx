@@ -67,6 +67,9 @@ const Login:NextPage = () => {
            <button className='bg-black text-white px-3 py-2 rounded-xl' type="submit" disabled={isSubmitting}>
              Submit
            </button>
+           <button onClick={()=>router.push('/signup')} className='bg-black text-white px-3 py-2 rounded-xl' type="button" disabled={isSubmitting}>
+             Signup
+           </button>
          </form>
        )}
     </Formik>
