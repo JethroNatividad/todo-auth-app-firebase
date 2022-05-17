@@ -2,7 +2,12 @@ import { Formik } from "formik";
 
 const CreateTodo = () => {
     return (
-        <Formik initialValues={{text: ''}} onSubmit={()=>{}}>
+        <Formik initialValues={{text: ''}} onSubmit={({text}, {setSubmitting, setValues})=>{
+           setSubmitting(true)
+           console.log(text)
+           //setValues({text: ''})
+           setSubmitting(false)
+        }}>
            {({
          values,
          handleChange,
@@ -11,9 +16,9 @@ const CreateTodo = () => {
          isSubmitting,
          /* and other goodies */
        }) => (
-           <form onSubmit={handleSubmit}>
+           <form className="flex space-x-1 px-1" onSubmit={handleSubmit}>
              <input
-           className='outline-none w-full border-2 border-black px-3 py-2 rounded-xl'
+           className='outline-none flex-1 border-2 border-black px-3 py-2 rounded-xl'
              type="text"
              name="text"
              onChange={handleChange}
@@ -21,6 +26,7 @@ const CreateTodo = () => {
              value={values.text}
              placeholder='Type something...'
            />
+           <button disabled={isSubmitting} className="border-2 rounded-xl border-black px-2 py-1" type="submit">Add</button>
            </form>
        )}
         </Formik>
