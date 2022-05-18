@@ -78,7 +78,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar signout={signout} username={user.username} loading={loadingUser} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} loadingUser={loadingUser} />
 
     </div>
   )

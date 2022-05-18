@@ -8,8 +8,9 @@ import Todo from './Todo'
 
 type Props = {
   todos: TodoFront[]
+  loadingUser: boolean
 }
-const TodoList = ({ todos }: Props) => {
+const TodoList = ({ todos, loadingUser }: Props) => {
 
 
   return (
@@ -19,12 +20,20 @@ const TodoList = ({ todos }: Props) => {
         <h1 className="font-semibold text-center">TODOS</h1>
         <div className='space-y-1'>
           {
+            loadingUser ? <div className='text-center'>Loading Todos...</div> : todos.length === 0 && (
+              <div className='text-center'>No todos found, create one</div>
+            )
+          }
+          {
             todos.map((todo) =>
               <Todo completed={todo.completed} text={todo.text} key={todo.id} id={todo.id} />
             )
           }
         </div>
-        <CreateTodo />
+        {
+          !loadingUser &&
+          <CreateTodo />
+        }
       </div>
     </div>
   );
