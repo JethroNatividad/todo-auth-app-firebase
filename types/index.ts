@@ -1,9 +1,13 @@
 export type Todo = {
-    text:string
+    text: string
     completed: boolean
 }
 
 export type UserData = {
     username: string
     email: string
+}
+
+export interface TodoFront extends Todo {
+    id: string
 }
