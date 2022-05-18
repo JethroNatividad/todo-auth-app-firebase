@@ -1,5 +1,6 @@
 import { Formik } from "formik";
 import { useState } from "react";
+import { editTodo } from "../lib/db";
 import { TodoFront } from "../types";
 
 const Todo = ({ completed, text, id }: TodoFront) => {
@@ -15,6 +16,7 @@ const Todo = ({ completed, text, id }: TodoFront) => {
                             console.log(text)
                             setFieldValue('text', text);
                             // await createTodo({ text, completed: false })
+                            await editTodo(id, { completed, text })
                             setSubmitting(false)
                             setEditing(false)
                         }}>
