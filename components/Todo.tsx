@@ -5,8 +5,13 @@ import { TodoFront } from "../types";
 
 const Todo = ({ completed, text, id }: TodoFront) => {
     const [editing, setEditing] = useState<boolean>(false)
+
+    const toggleCompleted = async () => {
+        await editTodo(id, { completed: !completed, text })
+    }
+
     return (
-        <div className="bg-gray-50 px-3 py-2 shadow-sm hover:shadow-md transition-all ease-in-out">
+        <div className={`${completed ? 'bg-gray-100' : 'bg-gray-50'} px-3 py-2 shadow-sm hover:shadow-md transition-all ease-in-out`}>
 
             {
                 editing
@@ -45,7 +50,7 @@ const Todo = ({ completed, text, id }: TodoFront) => {
                     )
                     : (
                         <div className="flex group items-center">
-                            <div className={`${completed && 'line-through'} flex-1 break-all`}>{text}</div>
+                            <div onClick={toggleCompleted} className={`${completed && 'line-through'}  flex-1 break-all cursor-pointer`}>{text}</div>
                             <div className='invisible group-hover:visible'>
                                 <button onClick={() => setEditing(true)} className="border-2 rounded-xl border-black px-2 py-1" type="button">Edit</button>
                             </div>
