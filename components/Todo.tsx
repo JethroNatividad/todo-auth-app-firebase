@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { useState } from "react";
-import { editTodo } from "../lib/db";
+import { deleteTodo, editTodo } from "../lib/db";
 import { TodoFront } from "../types";
 
 const Todo = ({ completed, text, id }: TodoFront) => {
@@ -8,6 +8,10 @@ const Todo = ({ completed, text, id }: TodoFront) => {
 
     const toggleCompleted = async () => {
         await editTodo(id, { completed: !completed, text })
+    }
+
+    const handleDelete = async () => {
+        await deleteTodo(id)
     }
 
     return (
@@ -51,8 +55,9 @@ const Todo = ({ completed, text, id }: TodoFront) => {
                     : (
                         <div className="flex group items-center">
                             <div onClick={toggleCompleted} className={`${completed && 'line-through'}  flex-1 break-all cursor-pointer`}>{text}</div>
-                            <div className='invisible group-hover:visible'>
-                                <button onClick={() => setEditing(true)} className="border-2 rounded-xl border-black px-2 py-1" type="button">Edit</button>
+                            <div className='invisible group-hover:visible flex space-x-1'>
+                                <button onClick={() => setEditing(true)} className="border-2 rounded-xl border-black px-2 hover:bg-black hover:text-white transition-all ease-in-out py-1" type="button">Edit</button>
+                                <button onClick={handleDelete} className="border-2 rounded-xl border-black px-2 py-1 hover:bg-black hover:text-white transition-all ease-in-out" type="button">Delete</button>
                             </div>
                         </div>)
             }
