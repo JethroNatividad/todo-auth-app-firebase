@@ -20,7 +20,7 @@ const TodoList = ({ todos }: Props) => {
         <div className='space-y-1'>
           {
             todos.map((todo) =>
-              <Todo completed={todo.completed} text={todo.text} key={todo.id} />
+              <Todo completed={todo.completed} text={todo.text} key={todo.id} id={todo.id} />
             )
           }
         </div>
