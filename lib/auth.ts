@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import { userRef } from './db'
-import { getDoc, setDoc } from "firebase/firestore";
+import { getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { getErrorMessage } from "./utils";
 
 export async function getUserData(uid: string) {
@@ -21,7 +21,8 @@ export async function signup(username: string, email: string, password: string) 
     // save user in db
     await setDoc(userRef(user.uid), {
       email,
-      username
+      username,
+      timestamp: serverTimestamp()
     })
 
 
@@ -38,6 +39,7 @@ export async function login(email: string, password: string) {
     const { user } = data
     console.log(data)
     const userData = await getUserData(user.uid)
+
     return [null, userData, user.uid]
   } catch (error: unknown) {
     const message: string = getErrorMessage(error)
