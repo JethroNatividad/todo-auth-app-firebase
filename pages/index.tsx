@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
-import { getDoc, onSnapshot } from 'firebase/firestore'
+import { getDoc, onSnapshot, orderBy, query } from 'firebase/firestore'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -52,7 +52,8 @@ const Home: NextPage = () => {
     if (!loadingUser) {
       const auth = getAuth()
       if (!auth.currentUser) return
-      const unsubscribe = onSnapshot(todosRef(auth.currentUser.uid), (snapshots) => {
+      const q = query(todosRef(auth.currentUser.uid), orderBy('timestamp', 'desc'))
+      const unsubscribe = onSnapshot(q, (snapshots) => {
         const data: TodoFront[] = []
         snapshots.forEach((snapshot) => {
           const { text, completed } = snapshot.data()
