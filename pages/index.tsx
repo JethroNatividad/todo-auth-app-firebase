@@ -9,10 +9,10 @@ import TodoList from '../components/TodoList'
 import { signup } from '../lib/auth'
 import { todosRef, userRef } from '../lib/db'
 import { auth } from '../lib/firebase'
-import { Todo, TodoFront, UserData } from '../types'
+import { Todo, TodoFront, UserData, UserDataInput } from '../types'
 
 const Home: NextPage = () => {
-  const [user, setUser] = useState<UserData>({ username: '', email: '' })
+  const [user, setUser] = useState<UserDataInput>({ username: '', email: '' })
   const [loadingUser, setLoadingUser] = useState<boolean>(true)
   const [todos, setTodos] = useState<TodoFront[]>([])
   const router = useRouter()
