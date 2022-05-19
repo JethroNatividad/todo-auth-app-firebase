@@ -24,7 +24,7 @@ export const createTodo = async ({ completed, text }: TodoInput) => {
     addDoc(todosRef(auth.currentUser.uid), { completed, text, timestamp: serverTimestamp() })
   }
 }
-export const editTodo = async (id: string, { completed, text }: Todo) => {
+export const editTodo = async (id: string, { completed, text }: TodoInput) => {
   const auth = getAuth()
   if (auth && auth.currentUser) {
     const refTodos = todosRef(auth.currentUser.uid)
