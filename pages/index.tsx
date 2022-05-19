@@ -52,7 +52,7 @@ const Home: NextPage = () => {
     if (!loadingUser) {
       const auth = getAuth()
       if (!auth.currentUser) return
-      const q = query(todosRef(auth.currentUser.uid), orderBy('timestamp', 'desc'))
+      const q = query(todosRef(auth.currentUser.uid), orderBy('timestamp', 'asc'))
       const unsubscribe = onSnapshot(q, (snapshots) => {
         const data: TodoFront[] = []
         snapshots.forEach((snapshot) => {
