@@ -1,4 +1,4 @@
-import { collection, CollectionReference, deleteDoc, doc, DocumentData, DocumentReference, setDoc } from "firebase/firestore";
+import { collection, CollectionReference, deleteDoc, doc, DocumentData, DocumentReference, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { Todo, UserData } from "../types";
 import { addDoc } from 'firebase/firestore'
@@ -21,7 +21,7 @@ export const todoRef = (todosRef: CollectionReference<Todo>, id: string) => {
 export const createTodo = async ({ completed, text }: Todo) => {
   const auth = getAuth()
   if (auth && auth.currentUser) {
-    addDoc(todosRef(auth.currentUser.uid), { completed, text })
+    addDoc(todosRef(auth.currentUser.uid), { completed, text, timestamp: serverTimestamp() })
   }
 }
 export const editTodo = async (id: string, { completed, text }: Todo) => {
